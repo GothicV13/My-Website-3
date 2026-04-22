@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AboutMe.exe</title>
+    <style>
+        :root {
+            --xp-blue: #0058e6;
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f2ff;
+            --xp-grad: linear-gradient(180deg, #0559f5 0%, #3a93ff 10%, #0559f5 100%);
+            --terminal-green: #33ff33;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: #000 url('https://bit.ly/3UEzX6L') no-repeat center center fixed;
+            background-size: cover;
+            font-family: "Tahoma", sans-serif;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            color: #222;
+        }
+
+        /* The Window - Added Neon Pulse */
+        .window {
+            width: 100%;
+            max-width: 1200px;
+            background: #ece9d8;
+            border: 4px solid var(--xp-blue);
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3), 15px 15px 0px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            animation: borderGlow 4s infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            from { border-color: var(--xp-blue); }
+            to { border-color: var(--neon-blue); }
+        }
+
+        .title-bar {
+            background: var(--xp-grad);
+            height: 38px;
+            padding: 0 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px #000;
+        }
+
+        .win-btns span {
+            width: 24px; height: 22px;
+            background: #efefef;
+            border: 1px solid #707070;
+            display: inline-block;
+            text-align: center;
+            line-height: 20px;
+            color: black;
+            box-shadow: inset -1px -1px #808080, inset 1px 1px #fff;
+            margin-left: 3px;
+        }
+
+        .layout { display: flex; flex-wrap: wrap; }
+
+        /* LEFT SIDEBAR: PROFILE & MANIFESTO */
+        .sidebar {
+            flex: 1;
+            min-width: 280px;
+            background: linear-gradient(135deg, #001f66 0%, #0058e6 100%);
+            padding: 25px;
+            color: white;
+            border-right: 3px solid var(--xp-blue);
+        }
+
+        .pfp-frame {
+            width: 160px; height: 160px;
+            border: 4px solid #fff;
+            margin: 0 auto 15px;
+            background: #000;
+            box-shadow: 0 0 15px var(--neon-pink);
+            overflow: hidden;
+        }
+
+        .pfp-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        .asl-box {
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border: 1px solid var(--neon-blue);
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .manifesto {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--neon-pink);
+            padding: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex: 3;
+            min-width: 350px;
+            background: #fff;
+            padding: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .section-header {
+            background: #d1cfbb;
+            border: 1px solid #7f9db9;
+            padding: 6px 12px;
+            font-weight: bold;
+            color: #00309c;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* DIGITAL NOTEBOOK (The writing area) */
+        .notebook {
+            background: #fff;
+            background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: 2px solid #888;
+            padding: 20px;
+            min-height: 200px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #111;
+        }
+
+        .notebook::before {
+            content: "ENTRY_LOG_#442";
+            display: block;
+            color: var(--xp-blue);
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        /* GRID CARDS */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            border: 1px solid #7f9db9;
+            background: #f9f9f9;
+        }
+
+        .card-inner { padding: 15px; }
+
+        .tag-box span {
+            background: var(--xp-blue);
+            color: white;
+            padding: 2px 8px;
+            font-size: 11px;
+            margin: 2px;
+            display: inline-block;
+        }
+
+        .social-bar {
+            background: #111;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .social-bar a {
+            color: var(--terminal-green);
+            text-decoration: none;
+            font-family: monospace;
+            border: 1px solid var(--terminal-green);
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .social-bar a:hover { background: var(--terminal-green); color: #000; }
+
+        /* BANDS LIST STYLE */
+        .band-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .band-list li {
+            padding: 5px 10px;
+            border-left: 3px solid var(--neon-pink);
+            background: #eee;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .layout { flex-direction: column; }
+            .sidebar { border-right: none; border-bottom: 4px solid var(--xp-blue); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="window">
+    <div class="title-bar">
+        <span><img src="https://win98icons.alexmeub.com/icons/png/world-3.png" width="16" style="vertical-align:middle"> AboutMe</span>
+        <div class="win-btns">
+            <span>_</span>
+            <span>□</span>
+            <span style="background: #e81123; color: white;">X</span>
+        </div>
+    </div>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="pfp-frame">
+                <img src="https://imgur.com/Yr6QSXK" alt="Profile">
+            </div>
+            
+            <div class="asl-box">
+                <b>> ID:</b> ALFIE<br>
+                <b>> AGE:</b> 114<br>
+                <b>> STAT:</b> ○-○<br>
+                <b>> LOC:</b> Cork <3
+            </div>
+
+            <div class="manifesto">
+                "Helloooooo :D i wanted to relearn html since i forgot some aspects so i wanted to create this little website to say stuff about myself and my opinions and hobbies etc... (Dont bore yourself to death :D)"
+            </div>
+
+            <h4 style="margin-top:30px; border-bottom: 1px solid #fff;">LINK_GATE</h4>
+            <div class="social-bar">
+                <a href="#">INSTAGRAM</a>
+                <a href="#">SPOTIFY</a>
+                <a href="#">DISCORD</a>
+                <a href="#">AIRBUDS</a>
+                <a href="#">TIKTOK</a>
+                <a href="#">SNAPCHAT (ew)</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <div class="section-header"><span>// stuff :D</span> <span>[ACTIVE]</span></div>
+            <div class="notebook">
+                So i really do not enjoy a lot but i want to go to more concerts since they are so much fun and so much cool people there that i can make friends with <3 <br><br>
+                Anddddd i have a lot of really specific weird interests, and please if ur reading this ur so cool :D message me on any of my social medias ill usually respond instantly :D
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="section-header">Stuff(1).txt</div>
+                    <div class="card-inner">
+                        <div class="tag-box">
+                            <span>Music Production</span> <span>Graffiti</span> <span>Urbex</span> <span>#CODING</span> <span>CD collecting</span> <span>Photography</span>
+                            <span>Game design and 3d modelling</span>
+                            <span>Playing guitar</span>
+                            <span>Making songs w people :D</span>
+                            <span>Coding (ofc)</span>
+                            <span>Building PCs and networking ( i have my own network setup)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="section-header">📺 OBSESSIONS</div>
+                    <div class="card-inner" style="font-size: 13px;">
+                        <b>WATCHING:</b> Black Mirror (so good i recommend) and rewatching every saw :D<br><br>
+                        <b>PLAYING:</b> Crossout (my favorite game :O) | Satisfactory | BeamNG | Slime Rancher | GTA | Still wakes the deep (replaying cus of how good it was)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="section-header">🎸 Bands i like (YAYAYAYAAYYA)</div>
+                    <div class="card-inner">
+                        <ul class="band-list">
+                            <li>Crowbar</li>
+                            <li>My Bloody Valentine</li>
+                            <li>Acid bath (I LOVE THEM ASWELL</li>
+                            <li>Slowdive</li>
+                            <li>Type O Negative (MY BELOVED OMFG I LOVE TYPE O SO MUCH)</li>
+ <li>Smashing Pumpkins (I SAW U LIVEEEE <333333</li>
+ <li>Pearl Jam</li>
+ <li>PANTERA MY BELOVED</li>
+ <li>Pixies</li>
+ <li>Alice In Chains</li>
+ <li>The Cure</li> 
+ <li>Metallica</li>
+
+      <li>Black Sabbath</li>
+ <li>Iron Maiden</li>     
+   <li>Megadeth </li> 
+ <li>And moreee <33333</li>    </ul>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <div class="section-header"><span><3 whats going on 4 me :D</span></div>
+            <div class="card">
+                <div class="card-inner">
+                    <p><b>Music :DDD:</b> i am still messing with shoegaze which is really goodddd but im still ASS so its kinda just a bunch of power chords slapped together which could be described as shoegaze anyways but eh</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="section-header"><span>// Gallery.exe</span></div>
+                <div class="card-inner">
+                    <div style="display:flex; gap:10px; overflow-x:auto;">
+                        <img src="https://imgur.com/MINPxwt" height="100">
+                        <img src="https://imgur.com/D9KBkfx" height="100">
+                        <img src="https://imgur.com/Dw8z944" height="100">
+                    </div>
+                </div>
+            </div>
+
+            <footer style="margin-top:50px; text-align:center; opacity:0.4; font-size:10px;">
+                o/ (Last Updated: 22/4/26)
+Um i dont really like photos of myself in general so sorry for the lack of them <3 but ya ty for viewing :D
+            </footer>
+        </main>
+    </div>
+</div>
+
+</body>
+              </html>
